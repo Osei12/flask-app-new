@@ -1,4 +1,4 @@
-from email.policy import default
+
 from flask import Flask,render_template,request,redirect,flash,get_flashed_messages,url_for
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
@@ -72,7 +72,10 @@ def add():
     return render_template('add.html')
 
 
-
+@app.route('/view_list', methods=['GET','POST'])
+def view():
+    members = Records.query.all()
+    return render_template('view.html',members=members)
 
 
 

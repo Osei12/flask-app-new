@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+    View list
+{% endblock title %}
+
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
+                <table class="table">
+                    <thead>
+                        <th> ID  </th>
+                        <th> Name  </th>
+                        <th> Email  </th>
+                    </thead>
+                    <tbody>
+                        
+                        {% for member in members %}
+                                   
+                        <td>{{member.id}}</td>
+                        <td>{{member.name}}</td>
+                        <td>{{member.email}}</td>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+    </div>
+
+{% endblock content %}
+    
+    
