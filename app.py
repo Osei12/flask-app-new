@@ -1,9 +1,11 @@
 
-from flask import Flask,render_template,request,redirect,flash,get_flashed_messages,url_for
+from flask import Flask,render_template,request,redirect,flash,get_flashed_messages,url_for,Response
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from werkzeug.utils import secure_filename
 import uuid as uuid
+import io
+import xlwt
 app = Flask(__name__)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///manage.db'
@@ -77,6 +79,34 @@ def view():
     members = Records.query.all()
     return render_template('view.html',members=members)
 
+@app.route('/downlaod/report/excel')
+def download_report():
+    all_members = Records.query.all()
+    output = io.BytesIO()
+    
+    workbook = xlwt.Workbook(encoding="UTF-8")
+    
+    sh = workbook.add_sheet('Member Report')
+    sh.write(0, 0, 'Id')
+    sh.write(0, 1, 'Name')
+    sh.write(0, 2, 'Email')
+
+
+    
+    idx=0
+    for member in all_members:
+        sh.write(idx+1, 0, str(member.id))
+        sh.write(idx+1, 1,  member.name)
+        sh.write(idx+1, 2, member.email)
+
+
+
+    
+        idx+= 1
+        
+    workbook.save(output)
+    output.seek(0)
+    return Response(output, mimetype="application/ms-excel",headers={"Content-Disposition":"attachment;filename=member_reports.xls"} )
 
 
 if __name__=='__main__':
