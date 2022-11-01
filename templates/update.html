@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+    Update
+{% endblock title %}
+
+
+{% block content %}
+    <div class="container mt-3">
+        {% include 'alert.html' %}
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <div class="title">
+                    <h3>Update Record</h3>
+                </div>
+                <form method="POST" enctype="multipart/form-data" >
+                    <div class="mb-3">
+                      <label for="exampleInputEmail1" class="form-label">Name</label>
+                      <input type="text" value="{{member.name}}" name="name" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" required>
+                      
+                    </div>
+                    <div class="mb-3">
+                      <label for="exampleInputEmail1" class="form-label">Email address</label>
+                      <input type="email" value="{{member.email}}" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" required>
+                      
+                    </div>
+                    <div class="mb-3">
+                      <label for="exampleInputEmail1" class="form-label">Upload image</label>
+                      <input type="file" name="file" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                      
+                    </div>
+                    <div class="mb-3">
+                     
+                     {% if member.id %}                    
+                     <img width="200"v height="190" src="{{url_for('static' ,filename='images/profile/' + member.profile)}}" alt="">
+                     {% else %}
+                     <img width="200"v height="190" src="{{url_for('static' ,filename='images/default.jpg')}}" alt="">
+                     {% endif %}
+                    </div>
+              
+          
+               
+                    <button type="submit" class="btn btn-primary">Update</button>
+                  </form>
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+    </div>
+{% endblock content %}

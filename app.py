@@ -1,4 +1,5 @@
 
+from types import MemberDescriptorType
 from flask import Flask,render_template,request,redirect,flash,get_flashed_messages,url_for,Response
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
@@ -79,6 +80,45 @@ def view():
     members = Records.query.all()
     return render_template('view.html',members=members)
 
+
+
+@app.route('/<int:id>/update' , methods=['GET','POST'])
+def update(id):
+    member = Records.query.get_or_404(id)
+    
+    if request.method=='POST':
+        if member:
+            member.name=request.form['name']
+            member.email=request.form['email']
+            if request.files['file']:
+                member.profile=request.files['file']
+                pic_filename = secure_filename( member.profile.filename)
+                pic_name = str(uuid.uuid1()) + " _ " + pic_filename
+                saver = request.files['file']
+                saver.save(os.path.join(app.config['UPLOAD_FOLDER'], pic_name))
+                # pic_path=os.path.join(app.root_path,'static/profile',pic_filename)
+                member.profile=pic_name 
+                # member.profile.save(pic_path)               
+                db.session.commit()
+                flash('Updated succesfuly')
+                return render_template('update.html' , member=member)
+            else:
+                db.session.commit()
+                flash('Updated succesfuly')
+                return render_template('update.html' , member=member)
+        
+    return render_template('update.html' , member=member)
+
+@app.route('/<int:id>/delete' , methods=['GET','POST'])
+def delete(id):
+    member = Records.query.get_or_404(id)
+    if member:
+        db.session.delete(member)
+        db.session.commit()
+        member = Records.query.all()
+        flash('Deleted Succesfully')
+        return redirect(url_for('view'))
+    return render_template('view.html' , member=member)
 # @app.route('/downlaod/report/excel')
 # def download_report():
 #     all_members = Records.query.all()

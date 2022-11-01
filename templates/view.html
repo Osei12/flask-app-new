@@ -8,6 +8,7 @@
 
 {% block content %}
     <div class="container mt-3">
+        {% include 'alert.html' %}
         <div class="row">
             <div class="col-md-2"></div>
             <div class="col-md-8">
@@ -16,6 +17,7 @@
                         <th> ID  </th>
                         <th> Name  </th>
                         <th> Email  </th>
+                        <th> Action  </th>
                     </thead>
                     <tbody>
                         
@@ -24,7 +26,31 @@
                         <td>{{member.id}}</td>
                         <td>{{member.name}}</td>
                         <td>{{member.email}}</td>
+                        <td>
+                            <a href="{{member.id}}/update">Update</a>
+                            <a href="{{member.id}}/delete" data-bs-toggle="modal"  data-bs-toggle="modal" data-bs-target="#delete{{member.id}}" >Delete</a>
+                        </td>
                     </tr>
+                        <!-- Modal -->
+                        <div class="modal fade" id="delete{{member.id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="staticBackdropLabel">Delete</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <form action="/{{member.id}}/delete" method="POST" >
+                                    <div class="modal-body">
+                                    Are you sure you want to delete <span class="delete-name">{{member.name}}</span> from the records?
+                                    </div>
+                                    <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <a href=""><button type="submit" class="btn btn-danger">Delete</button></a>
+                                    </div>
+                                </form>
+                            </div>
+                            </div>
+                        </div>
                         {% endfor %}
                     </tbody>
                 </table>
