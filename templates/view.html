@@ -7,11 +7,11 @@
 
 
 {% block content %}
-    <div class="container">
+    <div class="container mt-3">
         <div class="row">
             <div class="col-md-2"></div>
             <div class="col-md-8">
-                <table class="table">
+                <table id="table_id"  class="table tb">
                     <thead>
                         <th> ID  </th>
                         <th> Name  </th>
@@ -20,18 +20,27 @@
                     <tbody>
                         
                         {% for member in members %}
-                                   
+                    <tr>        
                         <td>{{member.id}}</td>
                         <td>{{member.name}}</td>
                         <td>{{member.email}}</td>
+                    </tr>
                         {% endfor %}
                     </tbody>
                 </table>
+                <a id="download" class="btn btn-success" href="">Download report</a>
             </div>
+            
             <div class="col-md-2"></div>
         </div>
-        <a href="">Download report</a>
-    </div>
+    </div> 
+    <script src="{{url_for('static', filename='js/table2excel.js')}}"></script>
+<script>
+    document.getElementById('download').addEventListener('click',function(){
+        var table2excel = new Table2Excel();
+        table2excel.export(document.querySelectorAll('.tb'));
+    });
+</script>
 
 {% endblock content %}
     
