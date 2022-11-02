@@ -1,15 +1,18 @@
 
-from types import MemberDescriptorType
-from flask import Flask,render_template,request,redirect,flash,get_flashed_messages,url_for,Response
+
+from flask import Flask,render_template,request,redirect,flash,get_flashed_messages,url_for,Response,make_response
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from werkzeug.utils import secure_filename
 import uuid as uuid
 import io
+import pdfkit
+
 
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///manage.db'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///manage.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:O26Ijle7CaiSZJogzN9W@containers-us-west-34.railway.app:6781/railway'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = 'jkhdgcyggHFHFHTHF65464^$^&'
 
@@ -119,6 +122,17 @@ def delete(id):
         flash('Deleted Succesfully')
         return redirect(url_for('view'))
     return render_template('view.html' , member=member)
+
+
+@app.route('/<int:id>/report', methods=['GET','POST'])
+def get_member_detail(id):
+    member=Records.query.get_or_404(id)
+    
+    return render_template('get_member_report.html',member=member)
+
+
+
+
 # @app.route('/downlaod/report/excel')
 # def download_report():
 #     all_members = Records.query.all()

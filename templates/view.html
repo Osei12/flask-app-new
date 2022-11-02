@@ -5,7 +5,7 @@
     View list
 {% endblock title %}
 
-
+{% include 'nav.html' %}
 {% block content %}
     <div class="container mt-3">
         {% include 'alert.html' %}
@@ -29,6 +29,7 @@
                         <td>
                             <a href="{{member.id}}/update">Update</a>
                             <a href="{{member.id}}/delete" data-bs-toggle="modal"  data-bs-toggle="modal" data-bs-target="#delete{{member.id}}" >Delete</a>
+                            <a href="/{{member.id}}/report">preview</a>
                         </td>
                     </tr>
                         <!-- Modal -->

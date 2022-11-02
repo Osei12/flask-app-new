@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+    Details
+{% endblock title %}
+
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                  Report
+                </div>
+                <div class="card-body">
+                  <h5 class="card-title"></h5>
+                  <p class="card-text">
+                    <strong>Name:</strong>
+                    {{member.name}} <br>
+                    <strong>Email:</strong>
+                    {{member.email}} <br>
+                    <strong>Name:</strong>
+                    {{member.name}} <br>
+                    <strong>Email:</strong>
+                    {{member.email}} <br>
+                    <strong>Name:</strong>
+                    {{member.name}} <br>
+                    <strong>Email:</strong>
+                    {{member.email}} <br>
+                    <strong>Name:</strong>
+                    {{member.name}} <br>
+                    <strong>Email:</strong>
+                    {{member.email}} <br>
+                   
+                  </p>
+                  
+                </div>
+              </div>
+        </div>
+        <div class="col-md-6 col-lg-6">
+    
+            {% if member.id %}
+            <img width="200" height="180" src="{{url_for('static' ,filename='images/profile/' +member.profile)}}" alt="">
+            {% else %}
+            <img width="200" height="180"  src="{{url_for('static' ,filename='images/default.jpg' +member.profile)}}" alt="No image">
+            
+            {% endif %}
+        </div>
+
+    </div>
+</div>
+{% endblock content %}
+    
